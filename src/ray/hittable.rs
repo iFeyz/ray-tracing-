@@ -1,13 +1,15 @@
 use crate::ray::ray::Ray;
 use crate::ray::vec3::{Vec3, Point3};
 use crate::ray::vec3::dot;
+use crate::utils::interval::Interval;
 
 pub trait Hittable {
-    fn hit(&self, ray: Ray, t_min: f32, t_max: f32, rec: &mut HitRecord) -> bool;
+    fn hit(&self, ray: Ray, ray_t: Interval, rec: &mut HitRecord) -> bool;
 }
 
+#[derive(Clone)]
 pub struct HitRecord {
-    pub t: f32,
+    pub t: Interval,
     pub p: Point3,
     pub normal: Vec3,
     pub front_face: bool,
@@ -16,7 +18,7 @@ pub struct HitRecord {
 impl HitRecord {
     pub fn new() -> Self {
         HitRecord {
-            t: 0.0,
+            t: Interval::new(0.0, f32::INFINITY),
             p: Point3::new(0.0, 0.0, 0.0),
             normal: Vec3::new(0.0, 0.0, 0.0),
             front_face: false,
