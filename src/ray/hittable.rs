@@ -2,6 +2,8 @@ use crate::ray::ray::Ray;
 use crate::ray::vec3::{Vec3, Point3};
 use crate::ray::vec3::dot;
 use crate::utils::interval::Interval;
+use crate::object::material::Material;
+use std::sync::Arc;
 
 pub trait Hittable {
     fn hit(&self, ray: Ray, ray_t: Interval, rec: &mut HitRecord) -> bool;
@@ -13,6 +15,7 @@ pub struct HitRecord {
     pub p: Point3,
     pub normal: Vec3,
     pub front_face: bool,
+    pub material: Option<Arc<dyn Material>>,
 }
 
 impl HitRecord {
@@ -22,6 +25,7 @@ impl HitRecord {
             p: Point3::new(0.0, 0.0, 0.0),
             normal: Vec3::new(0.0, 0.0, 0.0),
             front_face: false,
+            material: None,
         }
     }
 
